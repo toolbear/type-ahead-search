@@ -1,0 +1,11 @@
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+version = '0.0.1'
+jar {
+  manifest {
+    attributes 'Implementation-Title': 'Type Ahead Search',
+               'Implementation-Version': version,
+               'Main-Class': 'REPL'
+  }
+}
