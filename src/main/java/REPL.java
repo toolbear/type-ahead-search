@@ -1,16 +1,15 @@
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import javax.inject.Inject;
 
 class REPL {
-  private InputStream in;
-  private PrintStream out;
-  private PrintStream err;
+  private BufferedReader in;
+  private PrintWriter out;
+  private PrintWriter err;
 
   @Inject
-  REPL(@StandardInput InputStream in,
-               @StandardOutput PrintStream out,
-               @StandardError PrintStream err) {
+  REPL(@StandardInput BufferedReader in,
+       @StandardOutput PrintWriter out,
+       @StandardError PrintWriter err) {
     this.in = in;
     this.out = out;
     this.err = err;
@@ -18,5 +17,6 @@ class REPL {
 
   public void start() {
     out.println("wazzup");
+    out.flush();
   }
 }

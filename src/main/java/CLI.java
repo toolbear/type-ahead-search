@@ -1,3 +1,4 @@
+import java.io.*;
 import com.google.inject.*;
 
 public class CLI {
@@ -11,8 +12,14 @@ public class CLI {
 class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
-    bind(java.io.InputStream.class).annotatedWith(StandardInput.class).toInstance(System.in);
-    bind(java.io.PrintStream.class).annotatedWith(StandardOutput.class).toInstance(System.out);
-    bind(java.io.PrintStream.class).annotatedWith(StandardError.class).toInstance(System.err);
+    bind(BufferedReader.class)
+      .annotatedWith(StandardInput.class)
+      .toInstance(new BufferedReader(new InputStreamReader(System.in)));
+    bind(PrintWriter.class)
+      .annotatedWith(StandardOutput.class)
+      .toInstance(new PrintWriter(System.out));
+    bind(PrintWriter.class)
+      .annotatedWith(StandardError.class)
+      .toInstance(new PrintWriter(System.err));
   }
 }
