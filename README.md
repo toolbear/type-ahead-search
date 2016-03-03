@@ -18,7 +18,7 @@ $ ./bin/tas
 
 * [ ] Directive REPL
   * [x] quit
-  * [ ] process-file
+  * [x] process-file
   * [ ] query
   * [ ] ignore empty input lines
   * [ ] echo entire input, not just directive
