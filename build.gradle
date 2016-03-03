@@ -1,4 +1,14 @@
-apply plugin: 'java'
+buildscript {
+  repositories { jcenter() }
+  dependencies {
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+  }
+}
+
+plugins {
+  id 'java'
+  id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
 
 sourceCompatibility = 1.8
 version = '0.0.1'
