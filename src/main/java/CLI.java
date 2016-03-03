@@ -11,8 +11,6 @@ public class CLI {
 class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
-    bind(REPL.class).to(TerminalREPL.class);
-
     bind(java.io.InputStream.class).annotatedWith(StandardInput.class).toInstance(System.in);
     bind(java.io.PrintStream.class).annotatedWith(StandardOutput.class).toInstance(System.out);
     bind(java.io.PrintStream.class).annotatedWith(StandardError.class).toInstance(System.err);
