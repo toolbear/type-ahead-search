@@ -3,10 +3,10 @@ import java.util.*;
 import javax.inject.Inject;
 
 class REPL {
-  private BufferedReader in;
-  private PrintWriter out;
-  private PrintWriter err;
-  private Map<String,Directive> directives;
+  private final BufferedReader in;
+  private final PrintWriter out;
+  private final PrintWriter err;
+  private final Map<String,Directive> directives;
 
   @Inject
   REPL(@StandardInput BufferedReader in,
