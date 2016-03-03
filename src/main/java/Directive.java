@@ -1,8 +1,6 @@
-import java.io.PrintWriter;
-
 interface Directive {
   String name();
-  DirectiveResult apply(String parameters, PrintWriter out, PrintWriter err);
+  DirectiveResult apply(String parameters);
 }
 
 enum DirectiveResult { CONTINUE, SHUTDOWN }

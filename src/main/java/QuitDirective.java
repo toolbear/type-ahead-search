@@ -1,4 +1,3 @@
-import java.io.PrintWriter;
 import javax.inject.Inject;
 
 class QuitDirective implements Directive {
@@ -6,7 +5,7 @@ class QuitDirective implements Directive {
     return "quit";
   }
 
-  public DirectiveResult apply(String parameters, PrintWriter out, PrintWriter err) {
+  public DirectiveResult apply(String parameters) {
     return DirectiveResult.SHUTDOWN;
   }
 }

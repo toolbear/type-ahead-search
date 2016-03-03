@@ -40,7 +40,7 @@ public class REPLTest {
     subject.addDirective(directive);
     subject.start();
     verify(out).println("dance");
-    verify(directive).apply("", out, err);
+    verify(directive).apply("");
   }
 
   @Test
@@ -53,14 +53,14 @@ public class REPLTest {
     subject.addDirective(directive);
     subject.start();
     verify(out).println("dance");
-    verify(directive).apply("monkeyboy dance", out, err);
+    verify(directive).apply("monkeyboy dance");
   }
 
   @Test
   public void directiveSignalsShutdown() throws IOException {
     Directive directive = mock(Directive.class);
     when(directive.name()).thenReturn("dance");
-    when(directive.apply(any(),any(), any())).thenReturn(DirectiveResult.SHUTDOWN);
+    when(directive.apply(any())).thenReturn(DirectiveResult.SHUTDOWN);
     when(in.readLine())
       .thenReturn("dance")
       .thenReturn("dance")
