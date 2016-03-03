@@ -5,6 +5,9 @@ public class CLI {
   public static void main(String[] args) {
     Injector injector = Guice.createInjector(new CLIModule());
     REPL repl = injector.getInstance(REPL.class);
+    repl.addDirective(injector.getInstance(ProcessFileDirective.class));
+    repl.addDirective(injector.getInstance(QueryDirective.class));
+    repl.addDirective(injector.getInstance(QuitDirective.class));
     repl.start();
   }
 }
