@@ -17,7 +17,7 @@ $ ./bin/tas
 ## TODO
 
 * [ ] Directive REPL
-  * [ ] quit
+  * [x] quit
   * [ ] process-file
   * [ ] query
 
