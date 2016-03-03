@@ -1,5 +1,19 @@
 # Type Ahead Search Pr…
 
+## Quick Start
+
+```shell
+$ gradle clean check shadowJar
+$ java -jar build/libs/type-ahead-search-0.0.1-all.jar
+```
+
+or
+
+```shell
+$ gradle clean check shadowJar
+$ ./bin/tas
+```
+
 ## TODO
 
 * [ ] Directive REPL
