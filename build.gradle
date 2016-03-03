@@ -16,7 +16,7 @@ jar {
   manifest {
     attributes 'Implementation-Title': 'Type Ahead Search',
                'Implementation-Version': version,
-               'Main-Class': 'REPL'
+               'Main-Class': 'CLI'
   }
 }
 
@@ -25,6 +25,8 @@ repositories {
 }
 
 dependencies {
+  compile 'com.google.inject:guice:4.+'
+
   testCompile 'junit:junit:4.+',
     'org.assertj:assertj-core:3.+',
     'org.mockito:mockito-core:2.0.43-beta',

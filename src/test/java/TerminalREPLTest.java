@@ -2,7 +2,7 @@ import org.junit.Test;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class REPLTest {
+public class TerminalREPLTest {
   @Test
   public void equality() {
     assertThat("blue").isEqualTo("blue");
