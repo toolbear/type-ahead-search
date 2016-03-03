@@ -1,11 +1,11 @@
-import java.io.PrintWriter;
+import javax.inject.Inject;
 
 class QuitDirective implements Directive {
   public final String name() {
     return "quit";
   }
 
-  public void apply(String parameters, PrintWriter out, PrintWriter err) {
-    err.println(name() + " unimplemented");
+  public DirectiveResult apply(String parameters) {
+    return DirectiveResult.SHUTDOWN;
   }
 }
