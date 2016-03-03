@@ -24,9 +24,10 @@ class REPL {
 
   public void start() {
     String line;
+    DirectiveResult result = DirectiveResult.CONTINUE;
     try {
-      while ((line = in.readLine()) != null) {
-        evaluate(line);
+      while (result == DirectiveResult.CONTINUE && (line = in.readLine()) != null) {
+        result = evaluate(line);
         out.flush();
         err.flush();
       }
@@ -35,15 +36,16 @@ class REPL {
     }
   }
 
-  private void evaluate(String line) {
+  private DirectiveResult evaluate(String line) {
     String[] a = line.split("\\s", 2);
     String name = a[0];
     String parameters = a.length > 1 ? a[1] : "";
     if (directives.containsKey(name)) {
       out.println(name);
-      directives.get(name).apply(parameters, out, err);
+      return directives.get(name).apply(parameters, out, err);
     } else {
       err.println("Invalid directive: " + name);
+      return DirectiveResult.CONTINUE;
     }
   }
 }

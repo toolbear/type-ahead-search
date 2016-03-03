@@ -4,22 +4,16 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class QuitDirectiveTest {
-  Runtime runtime;
   Directive subject;
 
   @Before
-  public void mockTheRuntime() {
-    runtime = mock(Runtime.class);
-  }
-
-  @Before
   public void initializeSubject() {
-    subject = new QuitDirective(runtime);
+    subject = new QuitDirective();
   }
 
   @Test
-  public void exitsWithZeroStatus() {
-    subject.apply("", mock(PrintWriter.class), mock(PrintWriter.class));
-    verify(runtime).exit(0);
+  public void signalsShutdown() {
+    DirectiveResult r = subject.apply("", mock(PrintWriter.class), mock(PrintWriter.class));
+    assertThat(r).isEqualTo(DirectiveResult.SHUTDOWN);
   }
 }

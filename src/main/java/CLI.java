@@ -24,6 +24,5 @@ class CLIModule extends AbstractModule implements Module {
     bind(PrintWriter.class)
       .annotatedWith(StandardError.class)
       .toInstance(new PrintWriter(System.err));
-    bind(Runtime.class).toInstance(Runtime.getRuntime());
   }
 }

@@ -5,7 +5,8 @@ class ProcessFileDirective implements Directive {
     return "process-file";
   }
 
-  public void apply(String parameters, PrintWriter out, PrintWriter err) {
+  public DirectiveResult apply(String parameters, PrintWriter out, PrintWriter err) {
     err.println(name() + " unimplemented");
+    return DirectiveResult.CONTINUE;
   }
 }

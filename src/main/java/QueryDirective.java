@@ -5,7 +5,8 @@ class QueryDirective implements Directive {
     return "query";
   }
 
-  public void apply(String parameters, PrintWriter out, PrintWriter err) {
+  public DirectiveResult apply(String parameters, PrintWriter out, PrintWriter err) {
     err.println(name() + " unimplemented");
+    return DirectiveResult.CONTINUE;
   }
 }
