@@ -20,6 +20,8 @@ $ ./bin/tas
   * [x] quit
   * [ ] process-file
   * [ ] query
+  * [ ] ignore empty input lines
+  * [ ] echo entire input, not just directive
 
 * [ ] Querying
   * [ ] empty data set
@@ -32,7 +34,7 @@ $ ./bin/tas
   * [ ] concurrent updates
 
 * [ ] concurrency
-  * [ ] `quit` aborts active jobs
+  * [ ] `quit` aborts active tasks
 
 * [ ] reduce memory footprint
 
@@ -41,4 +43,4 @@ $ ./bin/tas
   * [ ] "Moon" and "Moonraker"
   * [ ] lexigraphic order
   * [ ] "The Thing (1982)" and "The Thing (2011)"
-  * [ ] case insensitivity
+  * [ ] case insensitivity when querying
