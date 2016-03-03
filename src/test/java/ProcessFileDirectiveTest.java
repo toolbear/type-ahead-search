@@ -2,29 +2,21 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ProcessFileDirectiveTest {
-  private PrintWriter err;
-  private ExecutorService executorService;
-  private ProcessFileTaskProvider taskProvider;
-  private FileSystem fileSystem;
-  private FileMethods fileMethods;
   private Directive subject;
 
-  @Before
-  public void mockIO() {
-    err = mock(PrintWriter.class);
-    fileSystem = mock(FileSystem.class);
-    fileMethods = mock(FileMethods.class);
-  }
-
-  @Before
-  public void mockConcurrency() {
-    executorService = mock(ExecutorService.class);
-    taskProvider = mock(ProcessFileTaskProvider.class);
-  }
+  @Mock private PrintWriter err;
+  @Mock private ExecutorService executorService;
+  @Mock private ProcessFileTaskProvider taskProvider;
+  @Mock private FileSystem fileSystem;
+  @Mock private FileMethods fileMethods;
 
   @Before
   public void initializeSubject() {
