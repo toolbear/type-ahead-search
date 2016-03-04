@@ -3,7 +3,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class QuitDirectiveTest {
-  Directive subject;
+  private Directive subject;
 
   @Before
   public void initializeSubject() {
