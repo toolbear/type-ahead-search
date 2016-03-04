@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.concurrent.*;
 import org.junit.*;
 import org.mockito.Mock;
 import org.mockito.junit.*;
@@ -13,10 +14,12 @@ public class REPLTest {
   @Mock private BufferedReader in;
   @Mock private PrintWriter out;
   @Mock private PrintWriter err;
+  @Mock private ExecutorService tasks;
+  @Mock private Runtime runtime;
 
   @Before
   public void initializeSubject() {
-    subject = new REPL(in, out, err);
+    subject = new REPL(in, out, err, tasks, runtime);
   }
 
   @Test

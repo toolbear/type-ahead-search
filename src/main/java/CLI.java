@@ -30,6 +30,8 @@ class CLIModule extends AbstractModule implements Module {
       .toInstance(Executors.newWorkStealingPool());
     bind(FileSystem.class)
       .toInstance(FileSystems.getDefault());
+    bind(Runtime.class)
+      .toInstance(Runtime.getRuntime());
   }
 }
 
