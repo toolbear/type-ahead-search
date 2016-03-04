@@ -18,8 +18,17 @@ class Movies {
     }
   }
 
-  public Iterable<Movie> startingWith(String s) {
-    return titles.getValuesForKeysStartingWith(s);
+  public Iterable<Movie> startingWith(String s, int maxHits) {
+    Collection<Movie> matches = new TreeSet<>(new MovieComparator());
+
+    for (CharSequence key : titles.getKeysStartingWith(s)) {
+      Movie movie = titles.getValueForExactKey(key);
+      if (matches.add(movie) && matches.size() >= maxHits) {
+        break;
+      }
+    }
+
+    return Collections.unmodifiableCollection(matches);
   }
 }
 

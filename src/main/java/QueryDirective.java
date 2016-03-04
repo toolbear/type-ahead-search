@@ -2,6 +2,8 @@ import java.io.PrintWriter;
 import javax.inject.Inject;
 
 class QueryDirective implements Directive {
+  private static final int MAX_HITS = 10;
+
   private final PrintWriter out;
   private final Movies movies;
 
@@ -16,7 +18,7 @@ class QueryDirective implements Directive {
   }
 
   public DirectiveResult apply(String parameters) {
-    for (Movie m : movies.startingWith(parameters.toLowerCase())) {
+    for (Movie m : movies.startingWith(parameters.toLowerCase(), MAX_HITS)) {
       out.println(String.format("%s\t%s\t%s", m.yearReleased, m.countryCode, m.title));
     }
     return DirectiveResult.CONTINUE;
