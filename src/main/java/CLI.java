@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.file.*;
 import java.util.concurrent.*;
 import com.google.inject.*;
 
@@ -27,13 +28,17 @@ class CLIModule extends AbstractModule implements Module {
       .toInstance(new PrintWriter(System.err));
     bind(ExecutorService.class)
       .toInstance(Executors.newWorkStealingPool());
-    bind(java.nio.file.FileSystem.class)
-      .toInstance(java.nio.file.FileSystems.getDefault());
+    bind(FileSystem.class)
+      .toInstance(FileSystems.getDefault());
   }
 }
 
 class FileMethods {
-  boolean exists(java.nio.file.Path path, java.nio.file.LinkOption... options) {
-    return java.nio.file.Files.exists(path, options);
+  boolean exists(Path path, LinkOption... options) {
+    return Files.exists(path, options);
+  }
+
+  BufferedReader newBufferedReader(Path path) throws IOException {
+    return Files.newBufferedReader(path);
   }
 }
