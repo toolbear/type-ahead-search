@@ -34,6 +34,7 @@ class REPL {
     DirectiveResult result = DirectiveResult.CONTINUE;
     try {
       while (result == DirectiveResult.CONTINUE && (line = in.readLine()) != null) {
+        if (line.trim().isEmpty()) continue;
         result = evaluate(line);
         out.flush();
         err.flush();

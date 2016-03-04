@@ -18,6 +18,11 @@ public class REPLTest {
   @Mock private Runtime runtime;
 
   @Before
+  public void gracefulShutdown() throws InterruptedException {
+    when(tasks.awaitTermination(anyLong(), any(TimeUnit.class))).thenReturn(true);
+  }
+
+  @Before
   public void initializeSubject() {
     subject = new REPL(in, out, err, tasks, runtime);
   }
@@ -29,6 +34,15 @@ public class REPLTest {
       .thenReturn(null);
     subject.start();
     verify(err).println("Invalid directive: nope");
+  }
+
+  @Test
+  public void emptyLine() throws IOException {
+    when(in.readLine())
+      .thenReturn(" ")
+      .thenReturn(null);
+    subject.start();
+    verifyZeroInteractions(out, err);
   }
 
   @Test
