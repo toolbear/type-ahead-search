@@ -1,24 +1,40 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import javax.inject.Singleton;
+import com.googlecode.concurrenttrees.radix.*;
+import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
 
+@Singleton
 class Movies {
-  private final NavigableSet<Movie> movies;
+  private final RadixTree<ConcurrentSkipListSet<Movie>> titles;
 
   Movies() {
-    this.movies = new ConcurrentSkipListSet(new MovieComparator());
+    this.titles = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
   }
 
   public void add(Movie movie) {
-    this.movies.add(movie);
+    for (String word : movie.title.toLowerCase().split("\\s")) {
+      ConcurrentSkipListSet<Movie> newSet = new ConcurrentSkipListSet<>();
+      newSet.add(movie);
+      Set<Movie> existingSet;
+      if ((existingSet = titles.putIfAbsent(word, newSet)) != null) {
+        existingSet.add(movie);
+      }
+    }
   }
-}
 
-class MovieComparator implements Comparator<Movie> {
-  public int compare(Movie a, Movie b) {
-    int r = 0;
-    r = r == 0 ? a.title.compareToIgnoreCase(b.title) : r;
-    r = r == 0 ? a.yearReleased.compareTo(b.yearReleased) : r;
-    r = r == 0 ? a.countryCode.compareTo(b.countryCode) : r;
-    return r ;
+  public Iterable<Movie> startingWith(String prefix, int maxResults) {
+    Collection<Movie> results = new TreeSet<>();
+
+    accumulate:
+    for (CharSequence k : titles.getKeysStartingWith(prefix)) {
+      for (Movie m : titles.getValueForExactKey(k)) {
+        if (results.add(m) && results.size() >= maxResults) {
+          break accumulate;
+        }
+      }
+    }
+
+    return Collections.unmodifiableCollection(results);
   }
 }
