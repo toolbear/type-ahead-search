@@ -20,8 +20,8 @@ $ ./bin/tas
   * [x] quit
   * [x] process-file
   * [ ] query
-  * [ ] ignore empty input lines
-  * [ ] echo entire input, not just directive
+  * [x] ignore empty input lines
+  * [x] echo entire input, not just directive
 
 * [ ] Querying
   * [ ] empty data set
@@ -31,14 +31,11 @@ $ ./bin/tas
 * [ ] Processing files
   * [ ] trie insertion
   * [ ] associate nodes with movie titles
-  * [ ] concurrent updates
+  * [x] concurrent updates
 
-* [ ] concurrency
-  * [ ] `quit` aborts active tasks
+* [ ] profile memory footprint
 
-* [ ] reduce memory footprint
-
-* Test cases
+* [ ] Test cases
   * [ ] > 10 matches
   * [ ] "Moon" and "Moonraker"
   * [ ] lexigraphic order
