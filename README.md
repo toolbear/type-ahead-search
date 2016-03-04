@@ -16,21 +16,21 @@ $ ./bin/tas
 
 ## TODO
 
-* [ ] Directive REPL
+* [x] Directive REPL
   * [x] quit
   * [x] process-file
-  * [ ] query
+  * [x] query
   * [x] ignore empty input lines
   * [x] echo entire input, not just directive
 
-* [ ] Querying
-  * [ ] empty data set
-  * [ ] all matches
-  * [ ] limit matches to 10
+* [x] Querying
+  * [x] empty data set
+  * [x] all matches
+  * [x] limit matches to 10
 
 * [ ] Processing files
-  * [ ] trie insertion
-  * [ ] associate nodes with movie titles
+  * [x] trie insertion
+  * [x] support multiple movies with the same key
   * [x] concurrent updates
   * [ ] better title tokenization; ignore hyphens, split on other punctuation
 

@@ -6,38 +6,35 @@ import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFac
 
 @Singleton
 class Movies {
-  private final RadixTree<Movie> titles;
+  private final RadixTree<ConcurrentSkipListSet<Movie>> titles;
 
   Movies() {
     this.titles = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
   }
 
   public void add(Movie movie) {
-    for (String w : movie.title.toLowerCase().split("\\s")) {
-      titles.putIfAbsent(w, movie);
+    for (String word : movie.title.toLowerCase().split("\\s")) {
+      ConcurrentSkipListSet<Movie> newSet = new ConcurrentSkipListSet<>();
+      newSet.add(movie);
+      Set<Movie> existingSet;
+      if ((existingSet = titles.putIfAbsent(word, newSet)) != null) {
+        existingSet.add(movie);
+      }
     }
   }
 
-  public Iterable<Movie> startingWith(String s, int maxHits) {
-    Collection<Movie> matches = new TreeSet<>(new MovieComparator());
+  public Iterable<Movie> startingWith(String prefix, int maxResults) {
+    Collection<Movie> results = new TreeSet<>();
 
-    for (CharSequence key : titles.getKeysStartingWith(s)) {
-      Movie movie = titles.getValueForExactKey(key);
-      if (matches.add(movie) && matches.size() >= maxHits) {
-        break;
+    accumulate:
+    for (CharSequence k : titles.getKeysStartingWith(prefix)) {
+      for (Movie m : titles.getValueForExactKey(k)) {
+        if (results.add(m) && results.size() >= maxResults) {
+          break accumulate;
+        }
       }
     }
 
-    return Collections.unmodifiableCollection(matches);
-  }
-}
-
-class MovieComparator implements Comparator<Movie> {
-  public int compare(Movie a, Movie b) {
-    int r = 0;
-    r = r == 0 ? a.title.compareToIgnoreCase(b.title) : r;
-    r = r == 0 ? a.yearReleased.compareTo(b.yearReleased) : r;
-    r = r == 0 ? a.countryCode.compareTo(b.countryCode) : r;
-    return r ;
+    return Collections.unmodifiableCollection(results);
   }
 }
