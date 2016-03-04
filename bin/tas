@@ -1,3 +1,4 @@
 #!/bin/sh
 
-java -jar build/libs/type-ahead-search-0.0.1-all.jar
+d=$(dirname "$0")
+java -jar ${d}/../build/libs/type-ahead-search-0.0.1-all.jar
