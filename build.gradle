@@ -33,3 +33,7 @@ dependencies {
     'org.mockito:mockito-core:2.0.43-beta',
     'info.solidsoft.mockito:mockito-java8:2.0.0-beta'
 }
+
+compileJava {
+  options.compilerArgs << "-Xlint:unchecked"
+}
