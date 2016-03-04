@@ -1,24 +1,25 @@
 import java.io.*;
+import java.util.concurrent.*;
 import org.junit.*;
+import org.mockito.Mock;
+import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class REPLTest {
-  private BufferedReader in;
-  private PrintWriter out;
-  private PrintWriter err;
+  @Rule public MockitoRule mockito = MockitoJUnit.rule();
+
   private REPL subject;
 
-  @Before
-  public void mockStreams() {
-    in = mock(BufferedReader.class);
-    out = mock(PrintWriter.class);
-    err = mock(PrintWriter.class);
-  }
+  @Mock private BufferedReader in;
+  @Mock private PrintWriter out;
+  @Mock private PrintWriter err;
+  @Mock private ExecutorService tasks;
+  @Mock private Runtime runtime;
 
   @Before
   public void initializeSubject() {
-    subject = new REPL(in, out, err);
+    subject = new REPL(in, out, err, tasks, runtime);
   }
 
   @Test
