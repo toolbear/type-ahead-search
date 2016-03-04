@@ -65,7 +65,7 @@ class REPL {
     String name = a[0];
     String parameters = a.length > 1 ? a[1] : "";
     if (directives.containsKey(name)) {
-      out.println(name);
+      out.println(line);
       return directives.get(name).apply(parameters);
     } else {
       err.println("Invalid directive: " + name);

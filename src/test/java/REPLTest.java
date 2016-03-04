@@ -53,7 +53,7 @@ public class REPLTest {
       .thenReturn(null);
     subject.addDirective(directive);
     subject.start();
-    verify(out).println("dance");
+    verify(out).println("dance monkeyboy dance");
     verify(directive).apply("monkeyboy dance");
   }
 
