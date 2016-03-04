@@ -32,6 +32,7 @@ $ ./bin/tas
   * [ ] trie insertion
   * [ ] associate nodes with movie titles
   * [x] concurrent updates
+  * [ ] better title tokenization; ignore hyphens, split on other punctuation
 
 * [ ] profile memory footprint
 

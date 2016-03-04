@@ -1,15 +1,25 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
+import javax.inject.Singleton;
+import com.googlecode.concurrenttrees.radix.*;
+import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
 
+@Singleton
 class Movies {
-  private final NavigableSet<Movie> movies;
+  private final RadixTree<Movie> titles;
 
   Movies() {
-    this.movies = new ConcurrentSkipListSet(new MovieComparator());
+    this.titles = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
   }
 
   public void add(Movie movie) {
-    this.movies.add(movie);
+    for (String w : movie.title.toLowerCase().split("\\s")) {
+      titles.putIfAbsent(w, movie);
+    }
+  }
+
+  public Iterable<Movie> startingWith(String s) {
+    return titles.getValuesForKeysStartingWith(s);
   }
 }
 
