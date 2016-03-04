@@ -2,14 +2,14 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class ProcessFileDirectiveTest {
+  @Rule public MockitoRule mockito = MockitoJUnit.rule();
+
   private Directive subject;
 
   @Mock private PrintWriter err;

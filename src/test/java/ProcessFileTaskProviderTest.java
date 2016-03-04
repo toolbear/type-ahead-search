@@ -2,7 +2,6 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.mockito.junit.*;
 import org.mockito.Mock;
 import static info.solidsoft.mockito.java8.AssertionMatcher.assertArg;

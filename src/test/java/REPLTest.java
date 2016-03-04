@@ -1,13 +1,13 @@
 import java.io.*;
 import org.junit.*;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.class)
 public class REPLTest {
+  @Rule public MockitoRule mockito = MockitoJUnit.rule();
+
   private REPL subject;
 
   @Mock private BufferedReader in;
