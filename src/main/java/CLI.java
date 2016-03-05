@@ -17,6 +17,12 @@ public class CLI {
 class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
+    // Movie with title, year, country stored as Strings
+    // bind(MovieProvider.class).to(FatMovieProvider.class);
+
+    // Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
+    bind(MovieProvider.class).to(ThinMovieProvider.class);
+
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)
       .toInstance(new BufferedReader(new InputStreamReader(System.in)));
@@ -32,8 +38,6 @@ class CLIModule extends AbstractModule implements Module {
       .toInstance(FileSystems.getDefault());
     bind(Runtime.class)
       .toInstance(Runtime.getRuntime());
-
-    bind(MovieProvider.class).to(FatMovieProvider.class);
   }
 }
 
