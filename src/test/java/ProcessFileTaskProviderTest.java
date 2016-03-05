@@ -17,6 +17,7 @@ public class ProcessFileTaskProviderTest {
   @Mock private PrintWriter err;
   @Mock private FileMethods fileMethods;
   @Mock private BufferedReader reader;
+  @Mock private MovieProvider movieProvider;
   @Mock private Movies movies;
 
   @Before
@@ -26,7 +27,7 @@ public class ProcessFileTaskProviderTest {
 
   @Before
   public void initializeSubject() {
-    subject = new ProcessFileTaskProvider(err, fileMethods, movies);
+    subject = new ProcessFileTaskProvider(err, fileMethods, movieProvider, movies);
   }
 
   @Test
@@ -62,38 +63,34 @@ public class ProcessFileTaskProviderTest {
 
   @Test
   public void oneEntry() throws IOException {
+    Movie m = mock(Movie.class, withSettings().name("fake Contact"));
+
     when(reader.readLine())
       .thenReturn("1997\tUS\tContact")
       .thenReturn(null);
+    when(movieProvider.movie("Contact", "1997", "US")).thenReturn(m);
 
     subject.process(path).run();
 
-    verify(movies).add(assertArg(m -> {
-          assertThat(m.title).isEqualTo("Contact");
-          assertThat(m.yearReleased).isEqualTo("1997");
-          assertThat(m.countryCode).isEqualTo("US");
-        }));
+    verify(movies).add(m);
   }
 
   @Test
   public void multipleEntries() throws IOException {
+    Movie m1 = mock(Movie.class, withSettings().name("fake Lola (US)"));
+    Movie m2 = mock(Movie.class, withSettings().name("fake Lola (DE)"));
+
     when(reader.readLine())
       .thenReturn("1998\tUS\tRun Lola Run")
       .thenReturn("1998\tDE\tLola rennt")
       .thenReturn(null);
+    when(movieProvider.movie(any(), any(), eq("US"))).thenReturn(m1);
+    when(movieProvider.movie(any(), any(), eq("DE"))).thenReturn(m2);
 
     subject.process(path).run();
 
-    verify(movies).add(assertArg(m -> {
-          assertThat(m.title).isEqualTo("Run Lola Run");
-          assertThat(m.yearReleased).isEqualTo("1998");
-          assertThat(m.countryCode).isEqualTo("US");
-        }));
-    verify(movies).add(assertArg(m -> {
-          assertThat(m.title).isEqualTo("Lola rennt");
-          assertThat(m.yearReleased).isEqualTo("1998");
-          assertThat(m.countryCode).isEqualTo("DE");
-        }));
+    verify(movies).add(m1);
+    verify(movies).add(m2);
   }
 
   @Test

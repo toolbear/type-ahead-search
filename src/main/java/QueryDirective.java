@@ -19,7 +19,7 @@ class QueryDirective implements Directive {
 
   public DirectiveResult apply(String parameters) {
     for (Movie m : movies.startingWith(parameters.toLowerCase(), MAX_RESULTS)) {
-      out.println(String.format("%s\t%s\t%s", m.yearReleased, m.countryCode, m.title));
+      out.println(String.format("%s\t%s\t%s", m.yearReleased(), m.countryCode(), m.title()));
     }
     return DirectiveResult.CONTINUE;
   }

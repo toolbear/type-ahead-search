@@ -10,6 +10,7 @@ public class CLI {
     repl.addDirective(injector.getInstance(ProcessFileDirective.class));
     repl.addDirective(injector.getInstance(QueryDirective.class));
     repl.addDirective(injector.getInstance(QuitDirective.class));
+    repl.addDirective(injector.getInstance(VisualizeDirective.class));
     repl.start();
   }
 }
@@ -17,6 +18,12 @@ public class CLI {
 class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
+    // Movie with title, year, country stored as Strings
+    // bind(MovieProvider.class).to(FatMovieProvider.class);
+
+    // Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
+    bind(MovieProvider.class).to(ThinMovieProvider.class);
+
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)
       .toInstance(new BufferedReader(new InputStreamReader(System.in)));

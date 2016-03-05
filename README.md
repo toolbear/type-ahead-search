@@ -42,3 +42,36 @@ $ ./bin/tas
   * [ ] lexigraphic order
   * [ ] "The Thing (1982)" and "The Thing (2011)"
   * [ ] case insensitivity when querying
+
+## Profiling
+
+```
+$ bin/tas
+# GC, heap size
+
+query foo
+# GC, heap size
+
+process-file imdb-aa
+...
+# GC, heap size
+
+query blu
+query zoo
+query m
+# GC, heap size
+```
+
+### Results
+
+* 114,840 movies from IMDB FTP
+  * FatMovie
+    * startup: 23 mB
+    * query: 23 mB
+    * load: 64 mB
+    * query: 65 mB
+  * ThinMovie
+    * startup: 23 mB
+    * query: 23 mB
+    * load: 54 mB
+    * query: 54 mB
