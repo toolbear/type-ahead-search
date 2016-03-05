@@ -4,7 +4,7 @@
 
 ```shell
 $ gradle clean check shadowJar
-$ java -jar build/libs/type-ahead-search-0.0.1-all.jar
+$ java -jar build/libs/type-ahead-search-0.1.0-all.jar
 ```
 
 or
