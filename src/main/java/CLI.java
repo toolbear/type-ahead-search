@@ -10,6 +10,7 @@ public class CLI {
     repl.addDirective(injector.getInstance(ProcessFileDirective.class));
     repl.addDirective(injector.getInstance(QueryDirective.class));
     repl.addDirective(injector.getInstance(QuitDirective.class));
+    repl.addDirective(injector.getInstance(VisualizeDirective.class));
     repl.start();
   }
 }

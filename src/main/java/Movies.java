@@ -1,12 +1,13 @@
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import javax.inject.Singleton;
+import com.googlecode.concurrenttrees.common.PrettyPrinter;
 import com.googlecode.concurrenttrees.radix.*;
 import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
 
 @Singleton
 class Movies {
-  private final RadixTree<ConcurrentSkipListSet<Movie>> titles;
+  private final ConcurrentRadixTree<ConcurrentSkipListSet<Movie>> titles;
 
   Movies() {
     this.titles = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
@@ -36,5 +37,9 @@ class Movies {
     }
 
     return Collections.unmodifiableCollection(results);
+  }
+
+  public void visualize(Appendable out) {
+    PrettyPrinter.prettyPrint(titles, out);
   }
 }
