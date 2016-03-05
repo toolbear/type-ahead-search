@@ -28,7 +28,7 @@ class Movies {
     Collection<Movie> results = new TreeSet<>();
 
     accumulate:
-    for (CharSequence k : titles.getKeysStartingWith(prefix)) {
+    for (CharSequence k : titles.getKeysStartingWith(prefix.toLowerCase())) {
       for (Movie m : titles.getValueForExactKey(k)) {
         if (results.add(m) && results.size() >= maxResults) {
           break accumulate;
