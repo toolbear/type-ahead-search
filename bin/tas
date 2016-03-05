@@ -1,4 +1,7 @@
 #!/bin/sh
 
 d=$(dirname "$0")
-java -jar ${d}/../build/libs/type-ahead-search-0.0.1-all.jar
+java \
+  -Xms2g \
+  -Xmx2g \
+  -jar ${d}/../build/libs/type-ahead-search-0.0.1-all.jar
