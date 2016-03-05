@@ -34,16 +34,9 @@ $ ./bin/tas
   * [x] concurrent updates
   * [ ] better title tokenization; ignore hyphens, split on other punctuation
 
-* [ ] profile memory footprint
-
-* [ ] Test cases
-  * [ ] > 10 matches
-  * [ ] "Moon" and "Moonraker"
-  * [ ] lexigraphic order
-  * [ ] "The Thing (1982)" and "The Thing (2011)"
-  * [ ] case insensitivity when querying
-
 ## Profiling
+
+`FatMovie` conservatively uses `String` for all fields. `ThinMovie` makes some assumptions about the input data — country codes are two characters and movie years are between [1887-2132] — to conserve some heap space. With around 100k movies loaded, `ThinMovie` uses approximately 10mB less. Something like a `FileOffsetMovie` could be used to further reduce the memory footprint trading it for CPU and disk IO.
 
 ```
 $ bin/tas
@@ -75,3 +68,4 @@ query m
     * query: 23 mB
     * load: 54 mB
     * query: 54 mB
+
