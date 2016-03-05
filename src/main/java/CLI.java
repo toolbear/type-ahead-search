@@ -32,6 +32,8 @@ class CLIModule extends AbstractModule implements Module {
       .toInstance(FileSystems.getDefault());
     bind(Runtime.class)
       .toInstance(Runtime.getRuntime());
+
+    bind(MovieProvider.class).to(FatMovieProvider.class);
   }
 }
 

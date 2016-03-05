@@ -45,15 +45,18 @@ public class QueryDirectiveTest {
 
   @Test
   public void outputsMatchesInOrderReturned() {
+    Movie m1 = mock(Movie.class, RETURNS_SMART_NULLS);
+    Movie m2 = mock(Movie.class, RETURNS_SMART_NULLS);
+    when(m1.title()).thenReturn("A");
+    when(m2.title()).thenReturn("B");
+
     InOrder inOrder = inOrder(out);
     when(movies.startingWith(any(), anyInt()))
-      .thenReturn(Arrays.asList(
-                                new Movie("A", "2016", "US"),
-                                new Movie("B", "2015", "FR")));
+      .thenReturn(Arrays.asList(m1, m2));
 
     subject.apply("whatever");
 
-    inOrder.verify(out).println("2016\tUS\tA");
-    inOrder.verify(out).println("2015\tFR\tB");
+    inOrder.verify(out).println("\t\tA");
+    inOrder.verify(out).println("\t\tB");
   }
 }

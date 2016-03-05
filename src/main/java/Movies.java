@@ -13,7 +13,7 @@ class Movies {
   }
 
   public void add(Movie movie) {
-    for (String word : movie.title.toLowerCase().split("\\s")) {
+    for (String word : movie.title().toLowerCase().split("\\s")) {
       ConcurrentSkipListSet<Movie> newSet = new ConcurrentSkipListSet<>();
       newSet.add(movie);
       Set<Movie> existingSet;
