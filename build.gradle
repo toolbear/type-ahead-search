@@ -40,3 +40,11 @@ compileJava {
 compileTestJava {
   options.compilerArgs << "-Xlint:unchecked"
 }
+
+test {
+  testLogging {
+    events "skipped", "failed", "standardOut", "standardError"
+    outputs.upToDateWhen {false}
+    exceptionFormat "full"
+  }
+}
