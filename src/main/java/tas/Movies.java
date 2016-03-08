@@ -1,12 +1,15 @@
+package tas;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import javax.inject.Singleton;
 import com.googlecode.concurrenttrees.common.PrettyPrinter;
 import com.googlecode.concurrenttrees.radix.*;
 import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
+import tas.collection.Words;
 
 @Singleton
-class Movies {
+public class Movies {
   private final ConcurrentRadixTree<ConcurrentSkipListSet<Movie>> titles;
 
   Movies() {

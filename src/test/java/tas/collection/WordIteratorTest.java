@@ -1,10 +1,11 @@
+package tas.collection;
+
 import java.util.*;
 import org.junit.*;
 import org.mockito.*;
 import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 
 public class WordIteratorTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();

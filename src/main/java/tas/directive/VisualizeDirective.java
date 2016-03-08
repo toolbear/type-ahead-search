@@ -1,7 +1,11 @@
+package tas.directive;
+
 import java.io.PrintWriter;
 import javax.inject.Inject;
+import tas.*;
+import tas.io.*;
 
-class VisualizeDirective implements Directive {
+public class VisualizeDirective implements Directive {
   private final PrintWriter out;
   private final Movies movies;
 

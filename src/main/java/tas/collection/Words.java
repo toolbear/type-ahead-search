@@ -1,9 +1,11 @@
+package tas.collection;
+
 import java.util.Iterator;
 
-class Words implements Iterable<CharSequence> {
+public class Words implements Iterable<CharSequence> {
   private final CharSequence doc;
 
-  Words(CharSequence doc) {
+  public Words(CharSequence doc) {
     this.doc = doc;
   }
 

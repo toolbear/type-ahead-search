@@ -1,26 +1,30 @@
+package tas.task;
+
 import java.io.*;
 import java.nio.file.Path;
 import javax.inject.Inject;
+import tas.*;
+import tas.io.*;
 
 // TODO: name me better.
-class ProcessFileTaskProvider {
+public class ProcessFileTaskFactory {
   private final PrintWriter err;
   private final FileMethods fileMethods;
-  private final MovieProvider movieProvider;
+  private final MovieFactory movieFactory;
   private final Movies movies;
 
   @Inject
-  ProcessFileTaskProvider(@StandardOutput PrintWriter err,
+  ProcessFileTaskFactory(@StandardOutput PrintWriter err,
                           FileMethods fileMethods,
-                          MovieProvider movieProvider,
+                          MovieFactory movieFactory,
                           Movies movies) {
     this.err = err;
     this.fileMethods = fileMethods;
-    this.movieProvider = movieProvider;
+    this.movieFactory = movieFactory;
     this.movies = movies;
   }
 
-  Runnable process(final Path path) {
+  public Runnable process(final Path path) {
     return new Runnable() {
       public void run() {
         try (BufferedReader reader = fileMethods.newBufferedReader(path)) {
@@ -28,7 +32,7 @@ class ProcessFileTaskProvider {
           while ((line = reader.readLine()) != null) {
             String[] a = line.split("\t");
             if (a.length == 3) {
-              movies.add(movieProvider.movie(a[2], a[0], a[1]));
+              movies.add(movieFactory.movie(a[2], a[0], a[1]));
             }
           }
         } catch (IOException e) {

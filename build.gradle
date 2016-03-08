@@ -16,7 +16,7 @@ jar {
   manifest {
     attributes 'Implementation-Title': 'Type Ahead Search',
                'Implementation-Version': version,
-               'Main-Class': 'CLI'
+               'Main-Class': 'tas.CLI'
   }
 }
 

@@ -1,7 +1,11 @@
+package tas;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
 import com.google.inject.*;
+import tas.directive.*;
+import tas.io.*;
 
 public class CLI {
   public static void main(String[] args) {
@@ -19,10 +23,10 @@ class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
     // Movie with title, year, country stored as Strings
-    // bind(MovieProvider.class).to(FatMovieProvider.class);
+    // bind(MovieFactory.class).to(FatMovieFactory.class);
 
     // Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
-    bind(MovieProvider.class).to(ThinMovieProvider.class);
+    bind(MovieFactory.class).to(ThinMovieFactory.class);
 
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)
@@ -39,15 +43,5 @@ class CLIModule extends AbstractModule implements Module {
       .toInstance(FileSystems.getDefault());
     bind(Runtime.class)
       .toInstance(Runtime.getRuntime());
-  }
-}
-
-class FileMethods {
-  boolean exists(Path path, LinkOption... options) {
-    return Files.exists(path, options);
-  }
-
-  BufferedReader newBufferedReader(Path path) throws IOException {
-    return Files.newBufferedReader(path);
   }
 }
