@@ -16,6 +16,8 @@ $ ./bin/tas
 
 ## TODO
 
+* [ ] replace `ConcurrentRadixTree` with a bespoke data structure
+
 * [x] Directive REPL
   * [x] quit
   * [x] process-file
