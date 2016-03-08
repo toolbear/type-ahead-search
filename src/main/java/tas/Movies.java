@@ -1,19 +1,17 @@
 package tas;
 
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import javax.inject.Singleton;
-import com.googlecode.concurrenttrees.common.PrettyPrinter;
-import com.googlecode.concurrenttrees.radix.*;
-import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
-import tas.collection.Words;
+import tas.collection.*;
 
 @Singleton
 public class Movies {
-  private final ConcurrentRadixTree<ConcurrentSkipListSet<Movie>> titles;
+  private final PrefixTree<ConcurrentSkipListSet<Movie>> titles;
 
   Movies() {
-    this.titles = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
+    this.titles = new ConcurrentTreesPrefixTree<>();
   }
 
   public void add(Movie movie) {
@@ -31,8 +29,8 @@ public class Movies {
     Collection<Movie> results = new TreeSet<>();
 
     accumulate:
-    for (CharSequence k : titles.getKeysStartingWith(prefix.toLowerCase())) {
-      for (Movie m : titles.getValueForExactKey(k)) {
+    for (CharSequence k : titles.keysStartingWith(prefix.toLowerCase())) {
+      for (Movie m : titles.get(k)) {
         if (results.add(m) && results.size() >= maxResults) {
           break accumulate;
         }
@@ -42,7 +40,7 @@ public class Movies {
     return Collections.unmodifiableCollection(results);
   }
 
-  public void visualize(Appendable out) {
-    PrettyPrinter.prettyPrint(titles, out);
+  public void visualize(PrintWriter out) {
+    titles.visualize(out);
   }
 }
