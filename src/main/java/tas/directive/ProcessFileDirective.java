@@ -13,14 +13,14 @@ public class ProcessFileDirective implements Directive {
   private final FileSystem fileSystem;
   private final FileMethods fileMethods;
   private final ExecutorService tasks;
-  private final ProcessFileTaskProvider taskProvider;
+  private final ProcessFileTaskFactory taskProvider;
 
   @Inject
   ProcessFileDirective(@StandardError PrintWriter err,
                        FileSystem fileSystem,
                        FileMethods fileMethods,
                        ExecutorService tasks,
-                       ProcessFileTaskProvider taskProvider) {
+                       ProcessFileTaskFactory taskProvider) {
     this.err = err;
     this.fileSystem = fileSystem;
     this.fileMethods = fileMethods;

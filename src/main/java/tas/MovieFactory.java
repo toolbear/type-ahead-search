@@ -1,16 +1,16 @@
 package tas;
 
-public interface MovieProvider {
+public interface MovieFactory {
   Movie movie(String title, String yearReleased, String countryCode);
 }
 
-class FatMovieProvider implements MovieProvider {
+class FatMovieFactory implements MovieFactory {
   public Movie movie(String title, String yearReleased, String countryCode) {
     return new FatMovie(title, yearReleased, countryCode);
   }
 }
 
-class ThinMovieProvider implements MovieProvider {
+class ThinMovieFactory implements MovieFactory {
   public Movie movie(String title, String yearReleased, String countryCode) {
     return new ThinMovie(title, yearReleased, countryCode);
   }

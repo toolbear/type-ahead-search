@@ -12,16 +12,16 @@ import static org.mockito.Mockito.*;
 import tas.*;
 import tas.io.*;
 
-public class ProcessFileTaskProviderTest {
+public class ProcessFileTaskFactoryTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();
 
-  private ProcessFileTaskProvider subject;
+  private ProcessFileTaskFactory subject;
 
   @Mock private Path path;
   @Mock private PrintWriter err;
   @Mock private FileMethods fileMethods;
   @Mock private BufferedReader reader;
-  @Mock private MovieProvider movieProvider;
+  @Mock private MovieFactory movieFactory;
   @Mock private Movies movies;
 
   @Before
@@ -31,7 +31,7 @@ public class ProcessFileTaskProviderTest {
 
   @Before
   public void initializeSubject() {
-    subject = new ProcessFileTaskProvider(err, fileMethods, movieProvider, movies);
+    subject = new ProcessFileTaskFactory(err, fileMethods, movieFactory, movies);
   }
 
   @Test
@@ -72,7 +72,7 @@ public class ProcessFileTaskProviderTest {
     when(reader.readLine())
       .thenReturn("1997\tUS\tContact")
       .thenReturn(null);
-    when(movieProvider.movie("Contact", "1997", "US")).thenReturn(m);
+    when(movieFactory.movie("Contact", "1997", "US")).thenReturn(m);
 
     subject.process(path).run();
 
@@ -88,8 +88,8 @@ public class ProcessFileTaskProviderTest {
       .thenReturn("1998\tUS\tRun Lola Run")
       .thenReturn("1998\tDE\tLola rennt")
       .thenReturn(null);
-    when(movieProvider.movie(any(), any(), eq("US"))).thenReturn(m1);
-    when(movieProvider.movie(any(), any(), eq("DE"))).thenReturn(m2);
+    when(movieFactory.movie(any(), any(), eq("US"))).thenReturn(m1);
+    when(movieFactory.movie(any(), any(), eq("DE"))).thenReturn(m2);
 
     subject.process(path).run();
 

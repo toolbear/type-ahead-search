@@ -20,7 +20,7 @@ public class ProcessFileDirectiveTest {
 
   @Mock private PrintWriter err;
   @Mock private ExecutorService executorService;
-  @Mock private ProcessFileTaskProvider taskProvider;
+  @Mock private ProcessFileTaskFactory taskProvider;
   @Mock private FileSystem fileSystem;
   @Mock private FileMethods fileMethods;
 

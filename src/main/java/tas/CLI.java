@@ -23,10 +23,10 @@ class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
     // Movie with title, year, country stored as Strings
-    // bind(MovieProvider.class).to(FatMovieProvider.class);
+    // bind(MovieFactory.class).to(FatMovieFactory.class);
 
     // Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
-    bind(MovieProvider.class).to(ThinMovieProvider.class);
+    bind(MovieFactory.class).to(ThinMovieFactory.class);
 
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)
