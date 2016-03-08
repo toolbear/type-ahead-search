@@ -1,9 +1,13 @@
+package tas.task;
+
 import java.io.*;
 import java.nio.file.Path;
 import javax.inject.Inject;
+import tas.*;
+import tas.io.*;
 
 // TODO: name me better.
-class ProcessFileTaskProvider {
+public class ProcessFileTaskProvider {
   private final PrintWriter err;
   private final FileMethods fileMethods;
   private final MovieProvider movieProvider;
@@ -20,7 +24,7 @@ class ProcessFileTaskProvider {
     this.movies = movies;
   }
 
-  Runnable process(final Path path) {
+  public Runnable process(final Path path) {
     return new Runnable() {
       public void run() {
         try (BufferedReader reader = fileMethods.newBufferedReader(path)) {

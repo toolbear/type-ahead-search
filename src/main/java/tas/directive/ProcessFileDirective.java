@@ -1,9 +1,14 @@
+package tas.directive;
+
 import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.concurrent.ExecutorService;
 import javax.inject.Inject;
+import tas.*;
+import tas.io.*;
+import tas.task.*;
 
-class ProcessFileDirective implements Directive {
+public class ProcessFileDirective implements Directive {
   private final PrintWriter err;
   private final FileSystem fileSystem;
   private final FileMethods fileMethods;

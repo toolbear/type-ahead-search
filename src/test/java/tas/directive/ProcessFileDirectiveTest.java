@@ -1,3 +1,5 @@
+package tas.directive;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
@@ -6,6 +8,10 @@ import org.mockito.Mock;
 import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import tas.*;
+import tas.directive.*;
+import tas.io.*;
+import tas.task.*;
 
 public class ProcessFileDirectiveTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();

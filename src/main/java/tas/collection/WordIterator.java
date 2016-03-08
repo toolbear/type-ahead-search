@@ -1,7 +1,9 @@
+package tas.collection;
+
 import java.util.*;
 import java.util.regex.*;
 
-class WordIterator implements Iterator<CharSequence> {
+public class WordIterator implements Iterator<CharSequence> {
   private static final Pattern WORDS = Pattern.compile("[\\w-]+");
 
   private final CharSequence doc;

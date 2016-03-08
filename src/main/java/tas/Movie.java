@@ -1,6 +1,8 @@
+package tas;
+
 import java.util.Comparator;
 
-interface Movie extends Comparable {
+public interface Movie extends Comparable {
   static final Comparator<Movie> COMPARATOR = new MovieComparator();
 
   String title();

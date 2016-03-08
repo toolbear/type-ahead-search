@@ -1,3 +1,5 @@
+package tas.task;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
@@ -7,6 +9,8 @@ import org.mockito.Mock;
 import static info.solidsoft.mockito.java8.AssertionMatcher.assertArg;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import tas.*;
+import tas.io.*;
 
 public class ProcessFileTaskProviderTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();

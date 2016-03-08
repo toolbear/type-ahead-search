@@ -1,4 +1,6 @@
-interface MovieProvider {
+package tas;
+
+public interface MovieProvider {
   Movie movie(String title, String yearReleased, String countryCode);
 }
 

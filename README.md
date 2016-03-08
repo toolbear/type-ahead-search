@@ -4,14 +4,16 @@
 
 ```shell
 $ gradle clean check shadowJar
-$ java -jar build/libs/type-ahead-search-0.1.0-all.jar
-```
 
-or
-
-```shell
-$ gradle clean check shadowJar
 $ ./bin/tas
+
+# or
+
+$ java -jar build/libs/type-ahead-search-0.1.0-all.jar
+
+# or
+
+$ java -cp build/libs/type-ahead-search-0.1.0-all.jar tas.CLI
 ```
 
 ## TODO
