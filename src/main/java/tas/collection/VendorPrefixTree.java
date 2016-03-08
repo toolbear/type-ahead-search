@@ -5,10 +5,10 @@ import com.googlecode.concurrenttrees.common.PrettyPrinter;
 import com.googlecode.concurrenttrees.radix.*;
 import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
 
-public class ConcurrentTreesPrefixTree<V> implements PrefixTree<V> {
+public class VendorPrefixTree<V> implements PrefixTree<V> {
   private final ConcurrentRadixTree<V> tree;
 
-  public ConcurrentTreesPrefixTree() {
+  public VendorPrefixTree() {
     this.tree = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
   }
 

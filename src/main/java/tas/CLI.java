@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.*;
 import java.util.concurrent.*;
 import com.google.inject.*;
+import tas.collection.*;
 import tas.directive.*;
 import tas.io.*;
 
@@ -22,11 +23,23 @@ public class CLI {
 class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
-    // Movie with title, year, country stored as Strings
+    /*
+     * Movie with title, year, country stored as Strings
+     */
     // bind(MovieFactory.class).to(FatMovieFactory.class);
-
-    // Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
+    /*
+     * Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
+     */
     bind(MovieFactory.class).to(ThinMovieFactory.class);
+
+    /*
+     * Prefix tree backed by a 3rd party lib
+     */
+    bind(PrefixTree.class).to(VendorPrefixTree.class);
+    /*
+     * Custom, DIY prefix tree
+     */
+    //bind(PrefixTree.class).to(BespokePrefixTree.class);
 
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)

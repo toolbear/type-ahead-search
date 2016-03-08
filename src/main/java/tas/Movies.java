@@ -4,14 +4,15 @@ import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
 import javax.inject.Singleton;
+import com.google.inject.Provider;
 import tas.collection.*;
 
 @Singleton
 public class Movies {
   private final PrefixTree<ConcurrentSkipListSet<Movie>> titles;
 
-  Movies() {
-    this.titles = new ConcurrentTreesPrefixTree<>();
+  Movies(Provider<PrefixTree<ConcurrentSkipListSet<Movie>>> treeProvider) {
+    this.titles = treeProvider.get();
   }
 
   public void add(Movie movie) {
