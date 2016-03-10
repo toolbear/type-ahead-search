@@ -53,11 +53,48 @@ public class PrefixTreeTest {
   }
 
   @Test
-  public void splitRequired() {
+  public void addSubsequence() {
     subject.putIfAbsent("baggage", '1');
     subject.putIfAbsent("bag", '0');
     assertThat(subject.get("baggage")).isEqualTo('1');
     assertThat(subject.get("bag")).isEqualTo('0');
+  }
+
+  @Test
+  public void addSupersequence() {
+    subject.putIfAbsent("bag", '1');
+    subject.putIfAbsent("baggage", '2');
+    assertThat(subject.get("bag")).isEqualTo('1');
+    assertThat(subject.get("baggage")).isEqualTo('2');
+  }
+
+  @Test
+  public void consanguineWithoutAncestorAdded() {
+    subject.putIfAbsent("adventure", '1');
+    subject.putIfAbsent("act", '2');
+    assertThat(subject.get("adventure")).isEqualTo('1');
+    assertThat(subject.get("act")).isEqualTo('2');
+  }
+
+  @Test
+  public void fillInParent() {
+    subject.putIfAbsent("subservient", '1');
+    subject.putIfAbsent("substitute", '2');
+
+    assertThat(subject.putIfAbsent("subs", '3')).isNull();
+
+    assertThat(subject.get("subs")).isEqualTo('3');
+  }
+
+  @Test
+  public void fillInAncestor() {
+    subject.putIfAbsent("peterson", '1');
+    subject.putIfAbsent("petechia", '2');
+
+    assertThat(subject.putIfAbsent("pet", '3')).isNull();
+
+    assertThat(subject.get("pet")).isEqualTo('3');
+    assertThat(subject.get("pete")).isNull();
   }
 
   @Test

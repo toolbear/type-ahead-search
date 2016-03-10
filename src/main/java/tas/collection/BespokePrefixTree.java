@@ -25,7 +25,11 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
     switch (comparison.relation) {
 
     case EQUIVALENT:
-      return new Tuple2<>(node.value, node);
+      if (node.value == null) {
+        return new Tuple2<>(null, new Node<V>(key, value, node.child, node.sibling));
+      } else {
+        return new Tuple2<>(node.value, node);
+      }
 
     case LEFT_EMPTY:
       return new Tuple2<>(null, new Node<V>(key, value, null, null));
@@ -51,15 +55,32 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
       return new Tuple2<>(null, patch);
     }
 
-    case PRECEDES:
+    case PRECEDES: {
+      if (comparison.consanguine) {
+        Node<V> right = new Node<V>(comparison.rightSuffix, value, null, null);
+        Node<V> left = new Node<V>(comparison.leftSuffix, node.value, node.child, right);
+        Node<V> patch = new Node<V>(comparison.common, null, left, node.sibling);
+        return new Tuple2<>(null, patch);
+      } else if (node.sibling != null) {
+        System.out.println("BOOSH!");
+        Tuple2<V, Node<V>> result = putIfAbsent(node.sibling, key, value);
+        node.sibling = result._2;
+        return new Tuple2<>(result._1, node);
+      } else {
+        Node<V> sibling = new Node<>(key, value, null, null);
+        Node<V> patch = new Node<>(node.key, node.value, node.child, sibling);
+        return new Tuple2<>(null, patch);
+      }
+    }
+
     case SUCCEEDS: {
       if (comparison.consanguine) {
-        Tuple2<V, Node<V>> result = putIfAbsent(node.child, comparison.rightSuffix, value);
-        node.child = result._2;
-        return new Tuple2<>(null, node);
+        Node<V> left = new Node<V>(comparison.leftSuffix, node.value, node.child, null);
+        Node<V> right = new Node<V>(comparison.rightSuffix, value, null, left);
+        Node<V> patch = new Node<V>(comparison.common, null, right, node.sibling);
+        return new Tuple2<>(null, patch);
       } else {
-        Node<V> sibling = new Node<>(key, value, null, node.sibling);
-        Node<V> patch = new Node<>(node.key, node.value, node.child, sibling);
+        Node<V> patch = new Node<>(key, value, null, node);
         return new Tuple2<>(null, patch);
       }
     }
@@ -111,11 +132,10 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
 
   private void visualize(PrintWriter out, String leaders, Node<V> node) {
     if (node == null || node.key.length() == 0) return;
-    out.format("%s%s── ○ %s%s%s\n",
+    out.format("%s%s── ○ %s%s\n",
                leaders,
                node.sibling == null ? "└" : "├", node.key,
-               node.value == null ? "" : " ",
-               node.value == null ? "" : node.value);
+               node.value == null ? "" : String.format(" (%s)", node.value));
     visualize(out, String.format("%s%s   ", leaders, node.sibling == null ? " " : "│"), node.child);
     visualize(out, leaders, node.sibling);
   }
