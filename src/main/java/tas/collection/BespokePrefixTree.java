@@ -104,8 +104,20 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
   }
 
   public void visualize(PrintWriter out) {
-    // TODO: pretty print us
-    out.println("not implemented");
+    out.println("○");
+    visualize(out, "", root);
+    out.flush();
+  }
+
+  private void visualize(PrintWriter out, String leaders, Node<V> node) {
+    if (node == null || node.key.length() == 0) return;
+    out.format("%s%s── ○ %s%s%s\n",
+               leaders,
+               node.sibling == null ? "└" : "├", node.key,
+               node.value == null ? "" : " ",
+               node.value == null ? "" : node.value);
+    visualize(out, String.format("%s%s   ", leaders, node.sibling == null ? " " : "│"), node.child);
+    visualize(out, leaders, node.sibling);
   }
 
   /*
