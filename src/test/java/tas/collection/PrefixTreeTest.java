@@ -131,9 +131,19 @@ public class PrefixTreeTest {
   }
 
   @Test
+  public void matchAgainstEmptyTree() {
+    assertThat(subject.keysStartingWith("a")).isEmpty();
+  }
+
+  @Test
+  public void matchWithBlankPrefix() {
+    assertThat(subject.keysStartingWith("")).isEmpty();
+  }
+
+  @Test
   public void prefixMatching() {
     subject.putIfAbsent("cat", 'z');
-    assertThat(subject.keysStartingWith("b")).doesNotContain("cat");    
+    assertThat(subject.keysStartingWith("b")).doesNotContain("cat");
     assertThat(subject.keysStartingWith("c")).contains("cat");
     assertThat(subject.keysStartingWith("ca")).contains("cat");
     assertThat(subject.keysStartingWith("cat")).contains("cat");
@@ -143,6 +153,14 @@ public class PrefixTreeTest {
 
   @Test
   public void multipleMatches() {
+    /*
+     * ○
+     * ├── ca
+     * │   ├── p (x)
+     * │   └── t (y)
+     * │       └── tle (w)
+     * └── dog (z)
+    */
     subject.putIfAbsent("cattle", 'w');
     subject.putIfAbsent("cap", 'x');
     subject.putIfAbsent("cat", 'y');
@@ -151,8 +169,44 @@ public class PrefixTreeTest {
     assertThat(subject.keysStartingWith("ca"))
       .containsExactly("cap", "cat", "cattle");
     assertThat(subject.keysStartingWith("cat"))
-      .containsExactly("cat", "cattle");
+      .startsWith("cat", "cattle");
     assertThat(subject.keysStartingWith("catt"))
-      .containsExactly("cattle");
+      .startsWith("cattle");
+  }
+
+  @Test
+  public void deepMatches() {
+    /*
+     * ○
+     * └── he (3)
+     *     └── r (4)
+     *         └── oi
+     *             ├── c (1)
+     *             │   └── s (5)
+     *             └── sm (2)
+     */
+    subject.putIfAbsent("heroic", '1');
+    subject.putIfAbsent("heroism", '2');
+    subject.putIfAbsent("he", '3');
+    subject.putIfAbsent("her", '4');
+    subject.putIfAbsent("heroics", '5');
+
+    assertThat(subject.keysStartingWith("hero"))
+      .containsExactly("heroic", "heroics", "heroism");
+  }
+
+  @Test
+  public void matcWithUnmatchedSibling() {
+    /*
+     * ○
+     * └── le
+     *     ├── ague (1)
+     *     └── gend (2)
+     */
+    subject.putIfAbsent("league", '1');
+    subject.putIfAbsent("legend", '2');
+
+    assertThat(subject.keysStartingWith("lea"))
+      .containsExactly("league");
   }
 }
