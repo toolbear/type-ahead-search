@@ -19,6 +19,7 @@ public class FunctionsTest {
       assertThat(c.rightSuffix.toString()).isEqualTo("dog");
       assertThat(c.common).isEmpty();
       assertThat(c.relation).isEqualTo(Comparison.LEFT_EMPTY);
+      assertThat(c.consanguine).isFalse();
     }
 
     @Test
@@ -28,6 +29,7 @@ public class FunctionsTest {
       assertThat(c.rightSuffix).isEmpty();
       assertThat(c.common).isEmpty();
       assertThat(c.relation).isEqualTo(Comparison.RIGHT_EMPTY);
+      assertThat(c.consanguine).isFalse();
     }
 
     @Test
@@ -37,6 +39,7 @@ public class FunctionsTest {
       assertThat(c.rightSuffix).isEmpty();
       assertThat(c.common.toString()).isEqualTo("dog");
       assertThat(c.relation).isEqualTo(Comparison.EQUIVALENT);
+      assertThat(c.consanguine).isTrue();
     }
 
     @Test
@@ -46,6 +49,7 @@ public class FunctionsTest {
       assertThat(c.rightSuffix).isEmpty();
       assertThat(c.common).isEmpty();
       assertThat(c.relation).isEqualTo(Comparison.EQUIVALENT);
+      assertThat(c.consanguine).isFalse();
     }
 
     @Test
@@ -55,6 +59,7 @@ public class FunctionsTest {
       assertThat(c.rightSuffix.toString()).isEqualTo("g");
       assertThat(c.common.toString()).isEqualTo("do");
       assertThat(c.relation).isEqualTo(Comparison.LEFT_SUBSEQUENCE);
+      assertThat(c.consanguine).isTrue();
     }
 
     @Test
@@ -64,6 +69,7 @@ public class FunctionsTest {
       assertThat(c.rightSuffix).isEmpty();
       assertThat(c.common.toString()).isEqualTo("do");
       assertThat(c.relation).isEqualTo(Comparison.RIGHT_SUBSEQUENCE);
+      assertThat(c.consanguine).isTrue();
     }
 
     @Test
@@ -86,12 +92,21 @@ public class FunctionsTest {
 
     @Test
     public void differByFirstCharacter() {
-      assertThat(subject.apply("a", "b").relation).isNotEqualTo(Comparison.EQUIVALENT);
+      Comparison c = subject.apply("a", "b");
+      assertThat(c.relation).isNotEqualTo(Comparison.EQUIVALENT);
+      assertThat(c.consanguine).isFalse();
+    }
+
+    @Test
+    public void differBySecondCharacter() {
+      Comparison c = subject.apply("ab", "aa");
+      assertThat(c.relation).isNotEqualTo(Comparison.EQUIVALENT);
+      assertThat(c.consanguine).isTrue();
     }
 
     @Test
     public void differByLastCharacter() {
-      assertThat(subject.apply("ab", "aa").relation).isNotEqualTo(Comparison.EQUIVALENT);
+      assertThat(subject.apply("abba", "abbe").relation).isNotEqualTo(Comparison.EQUIVALENT);
     }
   }
 }

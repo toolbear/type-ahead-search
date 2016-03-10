@@ -79,6 +79,21 @@ public class PrefixTreeTest {
   }
 
   @Test
+  public void siblingsWithNiblings() {
+    subject.putIfAbsent("mothering", '1');
+    subject.putIfAbsent("mother", '2');
+    subject.putIfAbsent("sister", '3');
+    subject.putIfAbsent("mothers", '4');
+    subject.putIfAbsent("brother", '5');
+
+    assertThat(subject.get("brother")).isEqualTo('5');
+    assertThat(subject.get("mother")).isEqualTo('2');
+    assertThat(subject.get("mothering")).isEqualTo('1');
+    assertThat(subject.get("mothers")).isEqualTo('4');
+    assertThat(subject.get("sister")).isEqualTo('3');
+  }
+
+  @Test
   public void prefixMatching() {
     subject.putIfAbsent("cat", 'z');
     assertThat(subject.keysStartingWith("b")).doesNotContain("cat");    

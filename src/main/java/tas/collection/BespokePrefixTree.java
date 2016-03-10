@@ -6,12 +6,12 @@ import tas.Functions.Comparison;
 import static tas.Functions.compare;
 
 public class BespokePrefixTree<V> implements PrefixTree<V> {
-  private static final CharSequence EMPTY_KEY = "";
+  private static final CharSequence EMPTY_SUBSEQUENCE = "";
 
   private Node<V> root;
 
   public BespokePrefixTree() {
-    root = new Node<V>(EMPTY_KEY, null);
+    root = new Node<V>(EMPTY_SUBSEQUENCE, null, null, null);
   }
 
   public V putIfAbsent(CharSequence key, V value) {
@@ -21,7 +21,6 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
   }
 
   private Tuple2<V, Node<V>> putIfAbsent(Node<V> node, CharSequence key, V value) {
-
     Comparison comparison = compare(node.key, key);
     switch (comparison.relation) {
 
@@ -29,7 +28,7 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
       return new Tuple2<>(node.value, node);
 
     case LEFT_EMPTY:
-      return new Tuple2<>(null, new Node<V>(key, value));
+      return new Tuple2<>(null, new Node<V>(key, value, null, null));
 
     case RIGHT_EMPTY: // TODO: TEST ME
       throw new IllegalArgumentException("empty key");
@@ -40,26 +39,28 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
         node.child = result._2;
         return new Tuple2<>(result._1, node);
       } else {
-        Node<V> child = new Node<>(comparison.rightSuffix, value);
-        Node<V> patch = new Node<>(comparison.common, node.value, child);
+        Node<V> child = new Node<>(comparison.rightSuffix, value, null, null);
+        Node<V> patch = new Node<>(comparison.common, node.value, child, node.sibling);
         return new Tuple2<>(null, patch);
       }
     }
 
     case RIGHT_SUBSEQUENCE: {
-      Node<V> child = new Node<>(comparison.leftSuffix, node.value);
-      Node<V> patch = new Node<>(comparison.common, value, child);
+      Node<V> child = new Node<>(comparison.leftSuffix, node.value, node.child, null);
+      Node<V> patch = new Node<>(comparison.common, value, child, node.sibling);
       return new Tuple2<>(null, patch);
     }
 
     case PRECEDES:
     case SUCCEEDS: {
-      if (comparison.common.length() > 0) {
+      if (comparison.consanguine) {
         Tuple2<V, Node<V>> result = putIfAbsent(node.child, comparison.rightSuffix, value);
         node.child = result._2;
         return new Tuple2<>(null, node);
-      } else { // new
-        return new Tuple2<>(null, new Node<V>(key, value));
+      } else {
+        Node<V> sibling = new Node<>(key, value, null, node.sibling);
+        Node<V> patch = new Node<>(node.key, node.value, node.child, sibling);
+        return new Tuple2<>(null, patch);
       }
     }
 
@@ -77,6 +78,7 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
   }
 
   private V get(Node<V> node, CharSequence key) {
+    if (node == null) return null;
     Comparison comparison = compare(node.key, key);
     switch (comparison.relation) {
 
@@ -90,10 +92,10 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
     case RIGHT_SUBSEQUENCE:
     case PRECEDES:
     case SUCCEEDS:
-      if (comparison.common.length() > 0 && node.child != null) {
+      if (comparison.consanguine) {
         return get(node.child, comparison.rightSuffix);
       } else {
-        return null;
+        return get(node.sibling, key);
       }
 
     default:
@@ -114,20 +116,23 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
     private final CharSequence key;
     private final V value;
     private Node<V> child;
+    private Node<V> sibling;
 
-    Node(CharSequence key, V value) {
-      this(key, value, null);
-    }
-
-    Node(CharSequence key, V value, Node<V> child) {
+    Node(CharSequence key, V value, Node<V> child, Node<V> sibling) {
       this.key = key;
       this.value = value;
       this.child = child;
+      this.sibling = sibling;
     }
 
     @Override
     public String toString() {
-      return String.format("%s(%s)%s", key, value == null ? "" : value, child == null ? "" : "┕");
+      return String.format("%s%s%s(%s)%s%s",
+                           sibling == null ? "" : sibling, sibling == null ? "┕" : "┝",
+                           key,
+                           value == null ? "" : value,
+                           child == null ? "" : "┑",
+                           child == null ? "" : child);
     }
   }
 }
