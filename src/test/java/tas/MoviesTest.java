@@ -1,7 +1,6 @@
 package tas;
 
 import java.util.*;
-import java.util.concurrent.*;
 import com.google.inject.Provider;
 import org.junit.*;
 import org.mockito.*;
@@ -13,13 +12,13 @@ import tas.collection.*;
 public class MoviesTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();
 
-  @Mock private Provider<PrefixTree<ConcurrentSkipListSet<Movie>>> treeProvider;
+  @Mock private Provider<PrefixTree<SortedSet<Movie>>> treeProvider;
   private Movies subject;
 
   @Before
   public void initializeSubject() {
     // TODO: test interactions with a PrefixTree mock instead of backing it with a real one
-    when(treeProvider.get()).thenReturn(new VendorPrefixTree<ConcurrentSkipListSet<Movie>>());
+    when(treeProvider.get()).thenReturn(new VendorPrefixTree<SortedSet<Movie>>());
     subject = new Movies(treeProvider);
   }
 

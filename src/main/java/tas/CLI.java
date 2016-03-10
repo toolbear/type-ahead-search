@@ -2,6 +2,7 @@ package tas;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.SortedSet;
 import java.util.concurrent.*;
 import com.google.inject.*;
 import tas.collection.*;
@@ -35,11 +36,19 @@ class CLIModule extends AbstractModule implements Module {
     /*
      * Prefix tree backed by a 3rd party lib
      */
-    bind(PrefixTree.class).to(VendorPrefixTree.class);
+    // bind(new TypeLiteral<PrefixTree<SortedSet<Movie>>>(){}).toProvider(new Provider<PrefixTree<SortedSet<Movie>>>(){
+    //     public PrefixTree<SortedSet<Movie>> get() {
+    //       return new VendorPrefixTree<SortedSet<Movie>>();
+    //     }
+    //   });
     /*
      * Custom, DIY prefix tree
      */
-    //bind(PrefixTree.class).to(BespokePrefixTree.class);
+    bind(new TypeLiteral<PrefixTree<SortedSet<Movie>>>(){}).toProvider(new Provider<PrefixTree<SortedSet<Movie>>>(){
+        public PrefixTree<SortedSet<Movie>> get() {
+          return new BespokePrefixTree<SortedSet<Movie>>();
+        }
+      });
 
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)

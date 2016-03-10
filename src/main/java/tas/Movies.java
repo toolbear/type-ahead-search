@@ -3,23 +3,24 @@ package tas;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
-import javax.inject.Singleton;
+import javax.inject.*;
 import com.google.inject.Provider;
 import tas.collection.*;
 
 @Singleton
 public class Movies {
-  private final PrefixTree<ConcurrentSkipListSet<Movie>> titles;
+  private final PrefixTree<SortedSet<Movie>> titles;
 
-  Movies(Provider<PrefixTree<ConcurrentSkipListSet<Movie>>> treeProvider) {
+  @Inject
+  Movies(Provider<PrefixTree<SortedSet<Movie>>> treeProvider) {
     this.titles = treeProvider.get();
   }
 
   public void add(Movie movie) {
     for (CharSequence word : new Words(movie.title().toLowerCase())) {
-      ConcurrentSkipListSet<Movie> newSet = new ConcurrentSkipListSet<>();
+      SortedSet<Movie> newSet = new ConcurrentSkipListSet<>();
       newSet.add(movie);
-      Set<Movie> existingSet;
+      SortedSet<Movie> existingSet;
       if ((existingSet = titles.putIfAbsent(word, newSet)) != null) {
         existingSet.add(movie);
       }
