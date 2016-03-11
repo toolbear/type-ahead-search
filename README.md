@@ -19,6 +19,8 @@ $ java -cp build/libs/type-ahead-search-0.1.0-all.jar tas.CLI
 ## TODO
 
 * [ ] replace `ConcurrentRadixTree` with a bespoke data structure
+  * [x] equivalent prefix tree
+  * [ ] concurrent writes
 
 * [ ] use guice assisted inject instead of factories
 
