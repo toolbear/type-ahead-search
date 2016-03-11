@@ -33,17 +33,6 @@ class CLIModule extends AbstractModule implements Module {
      */
     bind(MovieFactory.class).to(ThinMovieFactory.class);
 
-    /*
-     * Prefix tree backed by a 3rd party lib
-     */
-    // bind(new TypeLiteral<PrefixTree<SortedSet<Movie>>>(){}).toProvider(new Provider<PrefixTree<SortedSet<Movie>>>(){
-    //     public PrefixTree<SortedSet<Movie>> get() {
-    //       return new VendorPrefixTree<SortedSet<Movie>>();
-    //     }
-    //   });
-    /*
-     * Custom, DIY prefix tree
-     */
     bind(new TypeLiteral<PrefixTree<SortedSet<Movie>>>(){}).toProvider(new Provider<PrefixTree<SortedSet<Movie>>>(){
         public PrefixTree<SortedSet<Movie>> get() {
           return new BespokePrefixTree<SortedSet<Movie>>();

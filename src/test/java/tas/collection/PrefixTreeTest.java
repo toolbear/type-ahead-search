@@ -2,36 +2,20 @@ package tas.collection;
 
 import java.util.*;
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 import org.mockito.*;
 import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-@RunWith(value = Parameterized.class)
 public class PrefixTreeTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();
 
-  @Parameters
-  public static Collection<Class> implementations() {
-    return new ArrayList<Class>(Arrays.asList(
-                                              VendorPrefixTree.class,
-                                              BespokePrefixTree.class));
-  }
-
-  private Class<PrefixTree<Character>> implementation;
   private PrefixTree<Character> subject;
 
-  public PrefixTreeTest(Class<PrefixTree<Character>> implementation) {
-    this.implementation = implementation;
-  }
-
   @Before
-  public void initializeSubject() throws IllegalAccessException, InstantiationException {
-    subject = implementation.newInstance();
+  public void initializeSubject() {
+    subject = new BespokePrefixTree<Character>();
   }
 
   @Test

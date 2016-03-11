@@ -25,8 +25,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.google.inject:guice:4.+',
-    'com.googlecode.concurrent-trees:concurrent-trees:2.5.+'
+  compile 'com.google.inject:guice:4.+'
 
   testCompile 'junit:junit:4.+',
     'org.assertj:assertj-core:3.+',

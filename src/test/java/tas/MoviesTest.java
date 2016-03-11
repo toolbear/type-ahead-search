@@ -18,7 +18,7 @@ public class MoviesTest {
   @Before
   public void initializeSubject() {
     // TODO: test interactions with a PrefixTree mock instead of backing it with a real one
-    when(treeProvider.get()).thenReturn(new VendorPrefixTree<SortedSet<Movie>>());
+    when(treeProvider.get()).thenReturn(new BespokePrefixTree<SortedSet<Movie>>());
     subject = new Movies(treeProvider);
   }
 
