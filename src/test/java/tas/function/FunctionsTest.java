@@ -1,11 +1,11 @@
-package tas;
+package tas.function;
 
 import java.util.function.*;
 import org.junit.*;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 import static org.assertj.core.api.Assertions.*;
-import tas.Functions.Comparison;
+import tas.function.*;
 
 @RunWith(Enclosed.class)
 public class FunctionsTest {

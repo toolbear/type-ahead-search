@@ -3,9 +3,8 @@ package tas.collection;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.stream.*;
-import tas.Functions.Tuple2;
-import tas.Functions.Comparison;
-import static tas.Functions.compare;
+import tas.function.*;
+import static tas.function.Functions.compare;
 
 public class BespokePrefixTree<V> implements PrefixTree<V> {
   private static final CharSequence EMPTY_SUBSEQUENCE = "";
