@@ -3,14 +3,6 @@ package tas;
 public final class Functions {
   private static final CharSequence EMPTY_SEQUENCE = "";
 
-  public static CharSequence commonPrefix(CharSequence left, CharSequence right) {
-    int end = 0;
-    for (int n = Math.min(left.length(), right.length()); end < n; end++) {
-      if (left.charAt(end) != right.charAt(end)) break;
-    }
-    return left.subSequence(0, end);
-  }
-
   public static Comparison compare(CharSequence left, CharSequence right) {
     return compare(left, left.length(), right, right.length());
   }

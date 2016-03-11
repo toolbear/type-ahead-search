@@ -2,7 +2,8 @@ package tas.collection;
 
 import java.io.PrintWriter;
 import tas.Functions.Tuple2;
-import static tas.Functions.commonPrefix;
+import tas.Functions.Comparison;
+import static tas.Functions.compare;
 
 public class BespokePrefixTree<V> implements PrefixTree<V> {
   private static final CharSequence EMPTY_KEY = "";
@@ -20,34 +21,51 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
   }
 
   private Tuple2<V, Node<V>> putIfAbsent(Node<V> node, CharSequence key, V value) {
-    // TODO: cyclomatic complexity is complex
 
-    Tuple2<V, Node<V>> result;
+    Comparison comparison = compare(node.key, key);
+    switch (comparison.relation) {
 
+    case EQUIVALENT:
+      return new Tuple2<>(node.value, node);
 
-    CharSequence common = commonPrefix(node.key, key);
-    if (node.key.length() == common.length() && key.length() == common.length()) { // already present
-      result = new Tuple2<>(node.value, node);
-    } else if (common.length() > 0) {
-      if (node.child != null) { // recurse
-        Tuple2<V, Node<V>> r = putIfAbsent(node.child, key.subSequence(common.length(), key.length()), value);
-        node.child = r._2;
-        result = new Tuple2<>(null, node);
-      } else { // split
-        if (common.length() == key.length()) {
-          Node<V> child = new Node<>(node.key.subSequence(common.length(), node.key.length()), node.value);
-          Node<V> patch = new Node<>(common, value, child);
-          result = new Tuple2<>(null, patch);
-        } else {
-          Node<V> child = new Node<>(key.subSequence(common.length(), key.length()), value);
-          Node<V> patch = new Node<>(common, node.value, child);
-          result = new Tuple2<>(null, patch);
-        }
+    case LEFT_EMPTY:
+      return new Tuple2<>(null, new Node<V>(key, value));
+
+    case RIGHT_EMPTY: // TODO: TEST ME
+      throw new IllegalArgumentException("empty key");
+
+    case LEFT_SUBSEQUENCE: {
+      if (node.child != null) {
+        Tuple2<V, Node<V>> result = putIfAbsent(node.child, comparison.rightSuffix, value);
+        node.child = result._2;
+        return new Tuple2<>(result._1, node);
+      } else {
+        Node<V> child = new Node<>(comparison.rightSuffix, value);
+        Node<V> patch = new Node<>(comparison.common, node.value, child);
+        return new Tuple2<>(null, patch);
       }
-    } else { // new
-      result = new Tuple2<>(null, new Node<V>(key, value));
     }
-    return result;
+
+    case RIGHT_SUBSEQUENCE: {
+      Node<V> child = new Node<>(comparison.leftSuffix, node.value);
+      Node<V> patch = new Node<>(comparison.common, value, child);
+      return new Tuple2<>(null, patch);
+    }
+
+    case PRECEDES:
+    case SUCCEEDS: {
+      if (comparison.common.length() > 0) {
+        Tuple2<V, Node<V>> result = putIfAbsent(node.child, comparison.rightSuffix, value);
+        node.child = result._2;
+        return new Tuple2<>(null, node);
+      } else { // new
+        return new Tuple2<>(null, new Node<V>(key, value));
+      }
+    }
+
+    default:
+      throw new IllegalStateException("unsupported relation: " + comparison.relation.name());
+    }
   }
 
   public Iterable<CharSequence> keysStartingWith(CharSequence prefix) {
@@ -59,15 +77,28 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
   }
 
   private V get(Node<V> node, CharSequence key) {
-    V result = null;
-    CharSequence common = commonPrefix(node.key, key);
-    if (node.key.length() == common.length() && key.length() == common.length()) {
-      result = node.value;
-    } else if (common.length() > 0 && node.child != null) {
-      result = get(node.child, key.subSequence(common.length(), key.length()));
-    } else {
+    Comparison comparison = compare(node.key, key);
+    switch (comparison.relation) {
+
+    case EQUIVALENT:
+      return node.value;
+
+    case RIGHT_EMPTY: // TODO: TEST ME
+      throw new IllegalArgumentException("empty key");
+
+    case LEFT_SUBSEQUENCE:
+    case RIGHT_SUBSEQUENCE:
+    case PRECEDES:
+    case SUCCEEDS:
+      if (comparison.common.length() > 0 && node.child != null) {
+        return get(node.child, comparison.rightSuffix);
+      } else {
+        return null;
+      }
+
+    default:
+      return null;
     }
-    return result;
   }
 
   public void visualize(PrintWriter out) {
@@ -96,7 +127,7 @@ public class BespokePrefixTree<V> implements PrefixTree<V> {
 
     @Override
     public String toString() {
-      return String.format("%s(%s)", key, value == null ? "" : value);
+      return String.format("%s(%s)%s", key, value == null ? "" : value, child == null ? "" : "┕");
     }
   }
 }
