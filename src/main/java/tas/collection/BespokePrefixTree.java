@@ -1,6 +1,7 @@
 package tas.collection;
 
 import java.io.PrintWriter;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.*;
 import java.util.stream.*;
 import tas.function.*;
@@ -9,16 +10,23 @@ import static tas.function.Functions.compare;
 public class BespokePrefixTree<V> implements PrefixTree<V> {
   private static final CharSequence EMPTY_SUBSEQUENCE = "";
 
+  private final ReentrantLock writeLock;
   private Node<V> root;
 
   public BespokePrefixTree() {
+    writeLock = new ReentrantLock(true);
     root = new Node<V>(EMPTY_SUBSEQUENCE, null, null, null);
   }
 
   public V putIfAbsent(CharSequence key, V value) {
-    Tuple2<V, Node<V>> result = putIfAbsent(this.root, key, value);
-    this.root = result._2;
-    return result._1;
+    writeLock.lock();
+    try {
+      Tuple2<V, Node<V>> result = putIfAbsent(this.root, key, value);
+      this.root = result._2;
+      return result._1;
+    } finally {
+      writeLock.unlock();
+    }
   }
 
   private Tuple2<V, Node<V>> putIfAbsent(Node<V> node, CharSequence key, V value) {
