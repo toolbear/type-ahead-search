@@ -1,3 +1,5 @@
+package tas;
+
 import java.io.*;
 import java.util.concurrent.*;
 import org.junit.*;
@@ -5,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import tas.directive.*;
 
 public class REPLTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();

@@ -1,3 +1,5 @@
+package tas.io;
+
 import java.lang.annotation.Target;
 import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -7,10 +9,4 @@ import static java.lang.annotation.ElementType.METHOD;
 import com.google.inject.BindingAnnotation;
 
 @BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
-@interface StandardInput {}
-
-@BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
-@interface StandardOutput {}
-
-@BindingAnnotation @Target({ FIELD, PARAMETER, METHOD }) @Retention(RUNTIME)
-@interface StandardError {}
+public @interface StandardInput {}

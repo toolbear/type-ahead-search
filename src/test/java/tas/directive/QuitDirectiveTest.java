@@ -1,6 +1,9 @@
+package tas.directive;
+
 import org.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import tas.*;
 
 public class QuitDirectiveTest {
   private Directive subject;

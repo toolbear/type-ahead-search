@@ -1,7 +1,11 @@
+package tas.directive;
+
 import java.io.PrintWriter;
 import javax.inject.Inject;
+import tas.*;
+import tas.io.*;
 
-class QueryDirective implements Directive {
+public class QueryDirective implements Directive {
   private static final int MAX_RESULTS = 10;
 
   private final PrintWriter out;

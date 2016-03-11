@@ -1,7 +1,11 @@
+package tas;
+
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
 import javax.inject.Inject;
+import tas.directive.*;
+import tas.io.*;
 
 class REPL {
   private final BufferedReader in;
