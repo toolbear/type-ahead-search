@@ -18,9 +18,9 @@ $ java -cp build/libs/type-ahead-search-0.1.0-all.jar tas.CLI
 
 ## TODO
 
-* [ ] replace `ConcurrentRadixTree` with a bespoke data structure
+* [x] replace `ConcurrentRadixTree` with a bespoke data structure
   * [x] equivalent prefix tree
-  * [ ] concurrent writes
+  * [x] concurrent writes
 
 * [ ] use guice assisted inject instead of factories
 
@@ -40,6 +40,7 @@ $ java -cp build/libs/type-ahead-search-0.1.0-all.jar tas.CLI
   * [x] trie insertion
   * [x] support multiple movies with the same key
   * [x] concurrent updates
+  * [ ] better write performance; finer grained locks than one lock for the entire tree
   * [ ] better title tokenization
     * [ ] ignore hyphens
     * [x] split on other punctuation
@@ -78,4 +79,3 @@ query m
     * query: 23 mB
     * load: 54 mB
     * query: 54 mB
-
