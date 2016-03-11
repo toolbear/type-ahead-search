@@ -2,7 +2,6 @@ package tas.task;
 
 import java.io.*;
 import java.nio.file.Path;
-import javax.inject.Inject;
 import tas.*;
 import tas.io.*;
 
@@ -13,8 +12,7 @@ public class ProcessFileTaskFactory {
   private final MovieFactory movieFactory;
   private final Movies movies;
 
-  @Inject
-  ProcessFileTaskFactory(@StandardOutput PrintWriter err,
+  ProcessFileTaskFactory(PrintWriter err,
                           FileMethods fileMethods,
                           MovieFactory movieFactory,
                           Movies movies) {
@@ -22,6 +20,13 @@ public class ProcessFileTaskFactory {
     this.fileMethods = fileMethods;
     this.movieFactory = movieFactory;
     this.movies = movies;
+  }
+
+  public ProcessFileTaskFactory() {
+    this(CLI.ERR,
+         CLI.FILEMETHODS,
+         CLI.MOVIE_FACTORY,
+         Movies.singleton());
   }
 
   public Runnable process(final Path path) {

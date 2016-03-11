@@ -1,7 +1,6 @@
 package tas.directive;
 
 import java.io.PrintWriter;
-import javax.inject.Inject;
 import tas.*;
 import tas.io.*;
 
@@ -11,10 +10,14 @@ public class QueryDirective implements Directive {
   private final PrintWriter out;
   private final Movies movies;
 
-  @Inject
-  QueryDirective(@StandardOutput PrintWriter out, Movies movies) {
+  QueryDirective(PrintWriter out, Movies movies) {
     this.out = out;
     this.movies = movies;
+  }
+
+  public QueryDirective() {
+    this(CLI.OUT,
+         Movies.singleton());
   }
 
   public final String name() {

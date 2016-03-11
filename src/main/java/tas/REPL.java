@@ -3,7 +3,6 @@ package tas;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.*;
-import javax.inject.Inject;
 import tas.directive.*;
 import tas.io.*;
 
@@ -15,10 +14,9 @@ class REPL {
   private final Runtime runtime;
   private final Map<String,Directive> directives;
 
-  @Inject
-  REPL(@StandardInput BufferedReader in,
-       @StandardOutput PrintWriter out,
-       @StandardError PrintWriter err,
+  REPL(BufferedReader in,
+       PrintWriter out,
+       PrintWriter err,
        ExecutorService tasks,
        Runtime runtime) {
     this.in = in;
@@ -27,6 +25,14 @@ class REPL {
     this.tasks = tasks;
     this.runtime = runtime;
     this.directives = new HashMap<>();
+  }
+
+  REPL() {
+    this(CLI.IN,
+         CLI.OUT,
+         CLI.ERR,
+         CLI.EXECUTOR_SERVICE,
+         CLI.RUNTIME);
   }
 
   void addDirective(Directive d) {

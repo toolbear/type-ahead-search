@@ -1,6 +1,5 @@
 package tas.directive;
 
-import javax.inject.Inject;
 import tas.*;
 
 public class QuitDirective implements Directive {

@@ -3,17 +3,27 @@ package tas;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
-import javax.inject.*;
-import com.google.inject.Provider;
 import tas.collection.*;
 
-@Singleton
 public class Movies {
+  private static final Movies INSTANCE;
+
+  static {
+    INSTANCE = new Movies();
+  }
+
+  public static final Movies singleton() {
+    return INSTANCE;
+  }
+
   private final PrefixTree<SortedSet<Movie>> titles;
 
-  @Inject
   Movies(Provider<PrefixTree<SortedSet<Movie>>> treeProvider) {
     this.titles = treeProvider.get();
+  }
+
+  Movies() {
+    this(CLI.TREE_PROVIDER);
   }
 
   public void add(Movie movie) {

@@ -3,7 +3,6 @@ package tas.directive;
 import java.io.PrintWriter;
 import java.nio.file.*;
 import java.util.concurrent.ExecutorService;
-import javax.inject.Inject;
 import tas.*;
 import tas.io.*;
 import tas.task.*;
@@ -15,8 +14,7 @@ public class ProcessFileDirective implements Directive {
   private final ExecutorService tasks;
   private final ProcessFileTaskFactory taskProvider;
 
-  @Inject
-  ProcessFileDirective(@StandardError PrintWriter err,
+  ProcessFileDirective(PrintWriter err,
                        FileSystem fileSystem,
                        FileMethods fileMethods,
                        ExecutorService tasks,
@@ -26,6 +24,14 @@ public class ProcessFileDirective implements Directive {
     this.fileMethods = fileMethods;
     this.tasks = tasks;
     this.taskProvider = taskProvider;
+  }
+
+  public ProcessFileDirective() {
+    this(CLI.ERR,
+         CLI.FS,
+         CLI.FILEMETHODS,
+         CLI.EXECUTOR_SERVICE,
+         new ProcessFileTaskFactory());
   }
 
   public final String name() {

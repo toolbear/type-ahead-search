@@ -1,7 +1,6 @@
 package tas;
 
 import java.util.*;
-import com.google.inject.Provider;
 import org.junit.*;
 import org.mockito.*;
 import org.mockito.junit.*;
