@@ -1,26 +1,26 @@
 package tas;
 
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ConcurrentSkipListSet;
-import javax.inject.Singleton;
-import com.googlecode.concurrenttrees.common.PrettyPrinter;
-import com.googlecode.concurrenttrees.radix.*;
-import com.googlecode.concurrenttrees.radix.node.concrete.SmartArrayBasedNodeFactory;
-import tas.collection.Words;
+import javax.inject.*;
+import com.google.inject.Provider;
+import tas.collection.*;
 
 @Singleton
 public class Movies {
-  private final ConcurrentRadixTree<ConcurrentSkipListSet<Movie>> titles;
+  private final PrefixTree<SortedSet<Movie>> titles;
 
-  Movies() {
-    this.titles = new ConcurrentRadixTree<>(new SmartArrayBasedNodeFactory());
+  @Inject
+  Movies(Provider<PrefixTree<SortedSet<Movie>>> treeProvider) {
+    this.titles = treeProvider.get();
   }
 
   public void add(Movie movie) {
     for (CharSequence word : new Words(movie.title().toLowerCase())) {
-      ConcurrentSkipListSet<Movie> newSet = new ConcurrentSkipListSet<>();
+      SortedSet<Movie> newSet = new ConcurrentSkipListSet<>();
       newSet.add(movie);
-      Set<Movie> existingSet;
+      SortedSet<Movie> existingSet;
       if ((existingSet = titles.putIfAbsent(word, newSet)) != null) {
         existingSet.add(movie);
       }
@@ -31,8 +31,8 @@ public class Movies {
     Collection<Movie> results = new TreeSet<>();
 
     accumulate:
-    for (CharSequence k : titles.getKeysStartingWith(prefix.toLowerCase())) {
-      for (Movie m : titles.getValueForExactKey(k)) {
+    for (CharSequence k : titles.keysStartingWith(prefix.toLowerCase())) {
+      for (Movie m : titles.get(k)) {
         if (results.add(m) && results.size() >= maxResults) {
           break accumulate;
         }
@@ -42,7 +42,7 @@ public class Movies {
     return Collections.unmodifiableCollection(results);
   }
 
-  public void visualize(Appendable out) {
-    PrettyPrinter.prettyPrint(titles, out);
+  public void visualize(PrintWriter out) {
+    titles.visualize(out);
   }
 }

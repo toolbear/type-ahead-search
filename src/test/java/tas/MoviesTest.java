@@ -1,20 +1,25 @@
 package tas;
 
 import java.util.*;
+import com.google.inject.Provider;
 import org.junit.*;
 import org.mockito.*;
 import org.mockito.junit.*;
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import tas.collection.*;
 
 public class MoviesTest {
   @Rule public MockitoRule mockito = MockitoJUnit.rule();
 
+  @Mock private Provider<PrefixTree<SortedSet<Movie>>> treeProvider;
   private Movies subject;
 
   @Before
   public void initializeSubject() {
-    subject = new Movies();
+    // TODO: test interactions with a PrefixTree mock instead of backing it with a real one
+    when(treeProvider.get()).thenReturn(new VendorPrefixTree<SortedSet<Movie>>());
+    subject = new Movies(treeProvider);
   }
 
   @Test

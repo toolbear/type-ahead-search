@@ -2,8 +2,10 @@ package tas;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.SortedSet;
 import java.util.concurrent.*;
 import com.google.inject.*;
+import tas.collection.*;
 import tas.directive.*;
 import tas.io.*;
 
@@ -22,11 +24,31 @@ public class CLI {
 class CLIModule extends AbstractModule implements Module {
   @Override
   protected void configure() {
-    // Movie with title, year, country stored as Strings
+    /*
+     * Movie with title, year, country stored as Strings
+     */
     // bind(MovieFactory.class).to(FatMovieFactory.class);
-
-    // Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
+    /*
+     * Movie with smaller memory footprint; supports release years [1877-2132] and 2 character country codes
+     */
     bind(MovieFactory.class).to(ThinMovieFactory.class);
+
+    /*
+     * Prefix tree backed by a 3rd party lib
+     */
+    // bind(new TypeLiteral<PrefixTree<SortedSet<Movie>>>(){}).toProvider(new Provider<PrefixTree<SortedSet<Movie>>>(){
+    //     public PrefixTree<SortedSet<Movie>> get() {
+    //       return new VendorPrefixTree<SortedSet<Movie>>();
+    //     }
+    //   });
+    /*
+     * Custom, DIY prefix tree
+     */
+    bind(new TypeLiteral<PrefixTree<SortedSet<Movie>>>(){}).toProvider(new Provider<PrefixTree<SortedSet<Movie>>>(){
+        public PrefixTree<SortedSet<Movie>> get() {
+          return new BespokePrefixTree<SortedSet<Movie>>();
+        }
+      });
 
     bind(BufferedReader.class)
       .annotatedWith(StandardInput.class)

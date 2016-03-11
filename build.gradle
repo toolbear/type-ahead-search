@@ -43,7 +43,7 @@ compileTestJava {
 
 test {
   testLogging {
-    events "skipped", "failed", "standardOut", "standardError"
+    events "failed", "standardOut", "standardError"
     outputs.upToDateWhen {false}
     exceptionFormat "full"
   }
