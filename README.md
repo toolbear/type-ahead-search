@@ -9,11 +9,11 @@ $ ./bin/tas
 
 # or
 
-$ java -jar build/libs/type-ahead-search-0.1.0-all.jar
+$ java -jar build/libs/type-ahead-search-0.2.0-all.jar
 
 # or
 
-$ java -cp build/libs/type-ahead-search-0.1.0-all.jar tas.CLI
+$ java -cp build/libs/type-ahead-search-0.2.0-all.jar tas.CLI
 ```
 
 ## TODO
